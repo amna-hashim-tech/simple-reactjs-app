@@ -24,9 +24,15 @@ export default class CustomerDetails extends Component {
 
   // Function to load the customer details data from JSON
   getCustomerDetails(id) {
-    axios.get('assets/samplejson/customer' + id + '.json').then(response => {
-      this.setState({ customerDetails: response });
-    });
+    // ✅ FIX: added leading slash for Azure (important!)
+    axios
+      .get(`/assets/samplejson/customer${id}.json`)
+      .then(response => {
+        this.setState({ customerDetails: response });
+      })
+      .catch(error => {
+        console.error('Error loading customer details:', error);
+      });
   }
 
   render() {

@@ -19,9 +19,14 @@ export default class Customers extends Component {
 
   // Function to get the Customer Data from JSON
   getCustomerData() {
-    axios.get('assets/samplejson/customerlist.json').then(response => {
-      this.setState({ customerList: response });
-    });
+    // ✅ FIX: added "/" before assets so Azure finds the file correctly
+    axios.get('/assets/samplejson/customerlist.json')
+      .then(response => {
+        this.setState({ customerList: response });
+      })
+      .catch(error => {
+        console.error("Error loading customer list:", error);
+      });
   }
 
   render() {
@@ -42,9 +47,7 @@ export default class Customers extends Component {
                 <p>{customer.phone}</p>
                 <Button
                   variant="info"
-                  onClick={() =>
-                    this.setState({ selectedCustomer: customer.id })
-                  }
+                  onClick={() => this.setState({ selectedCustomer: customer.id })}
                 >
                   Click to View Details
                 </Button>
